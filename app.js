@@ -5,6 +5,7 @@ const morgan = require('morgan');
 const bodyParser = require('body-parser');
 const nunjucks = require('nunjucks');
 const path = require('path');
+const models = require('./models');
 
 // logging middleware
 app.use(morgan('dev'));
@@ -25,4 +26,16 @@ app.engine('html', nunjucks.render);
 //   res.render('index',
 // });
 
-app.listen(3000);
+// Database Sync
+models.db.sync({force: true})
+.then(function () {
+    // make sure to replace the name below with your express app
+    app.listen(3000, function () {
+        console.log('Server is listening on port 3001!');
+    });
+})
+.catch(console.error);
+
+
+
+
