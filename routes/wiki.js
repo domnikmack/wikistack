@@ -3,15 +3,16 @@ const app = express();
 const router = express.Router();
 
 router.get('/', function(req, res, next) {
-  res.send('This is the wiki route');
+  res.redirect('/');
 });
 
 router.post('/', function(req, res, next) {
-  res.send('This was a post request');
+  // res.send('This was a post request');
+  res.json(req.body);
 });
 
 router.get('/add', function(req,res, next) {
-  res.send('Addint');
+  res.render('addpage');
 })
 
 
