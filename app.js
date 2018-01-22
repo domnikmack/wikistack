@@ -1,4 +1,4 @@
-'user strict';
+'use strict';
 const express = require('express');
 const app = express();
 const morgan = require('morgan');
@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const nunjucks = require('nunjucks');
 const path = require('path');
 const models = require('./models');
+const router = require('./routes');
 
 // logging middleware
 app.use(morgan('dev'));
@@ -16,15 +17,14 @@ app.use(bodyParser.urlencoded({extended: true}));
 //static route
 app.use(express.static(path.join(__dirname + '/public')));
 
+app.use(router);
+
 //template engine
 var env = nunjucks.configure('views', {noCache: true});
 app.set('view engine', 'html');
 app.engine('html', nunjucks.render);
 
 
-// app.get('/', function(res, req) {
-//   res.render('index',
-// });
 
 // Database Sync
 models.db.sync({force: true})
